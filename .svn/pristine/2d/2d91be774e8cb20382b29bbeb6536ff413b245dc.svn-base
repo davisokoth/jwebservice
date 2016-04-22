@@ -1,0 +1,144 @@
+package org.kemsa.kws.page;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.apache.wicket.PageParameters;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.Model;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.kemsa.kws.data.HCRUD;
+import org.kemsa.kws.model.C_UOM;
+import org.kemsa.kws.util.Util;
+
+import com.google.inject.Inject;
+
+/**
+ * Homepage
+ */
+public class HomePage extends WebPage {
+	@Inject
+	private HCRUD hcrud;
+
+	private String webresource;
+
+	private static final long serialVersionUID = 1L;
+
+	// TODO Add any page properties or variables here
+
+	/**
+	 * Constructor that is invoked when page is invoked without a session.
+	 * 
+	 * @param parameters
+	 *            Page parameters
+	 */
+	public HomePage(final PageParameters parameters) {
+
+		final Properties props = Util.getAppConfigProps();
+
+		// Add the simplest type of label
+		add(new Label("message",
+				"If you see this message the webservice is properly configured and running"));
+
+		// TODO Add your page's components here
+
+		final FeedbackPanel pnlFeedBack = new FeedbackPanel("pnlFeedBack");
+		pnlFeedBack.setOutputMarkupId(true);
+		add(pnlFeedBack);
+
+		webresource = Util.getWebResource(props.getProperty("uri.thisapp")
+				+ "kemsawebservice/json/uoms", null, null);
+		
+		info(webresource);
+		
+
+		List<C_UOM> lstUoms = hcrud.retrieveAll(C_UOM.class);
+		if (lstUoms == null) {
+			lstUoms = new ArrayList<C_UOM>();
+		}
+		
+		List<String> lstNames = new ArrayList<String>();
+		
+		/**
+		for (int i = 0; i < lstUoms.size(); i++) {
+			lstNames.add(lstUoms.get(i).getName());
+		}
+		**/
+
+		Form filterForm = new Form("filterForm", new Model());
+		
+		final DropDownChoice<String> uomName = 
+			new DropDownChoice<String>("uomName", new Model(), lstNames) {
+			@Override
+			protected CharSequence getDefaultChoice(Object arg0) {
+				return "<option value=\"\">Filter By Name</option>";
+			}
+		};
+
+		/**
+		uomName.add(new AjaxFormSubmitBehavior("onchange") {
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target) {
+
+				if (uomName.getModelObject() == null) {
+				} else {
+					webresource = Util.getWebResource(
+							props.getProperty("uri.thisapp")
+									+ "kemsawebservice/json/uoms", "name",
+							uomName.getModelObject());
+					info(webresource);
+					target.addComponent(pnlFeedBack);
+				}
+
+			}
+
+			@Override
+			protected void onError(AjaxRequestTarget target) {
+
+			}
+
+		});
+		**/
+
+		IndicatingAjaxButton btnSubmit = new IndicatingAjaxButton("submit") {
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				String orderSample = "{\"c_bpartner_id\":1003146,\"c_bpartner_location_id\":1000802,\"m_warehouse_id\":1000000,\"atl_sourceoffunds_id\":1000014,\"description\":\"ARV TOOLS RE-SUPPLY\",\"externalno\":\"test02\",\"total\":25000.88,"
+						+ "\"items\":[{\"m_product_id\":1000192,\"c_uom_id\":1000039,\"qty\":400,\"unitprice\":9.21,\"lineamt\":3684.00},{\"m_product_id\":1000169,\"c_uom_id\":1000002,\"qty\":300,\"unitprice\":16.00,\"lineamt\":4800.00}]}";
+
+				String webserviceurl = props.getProperty("uri.thisapp")
+						+ "kemsawebservice/json/orders";
+
+				JSONObject orderSampleJson = null;
+				try {
+					orderSampleJson = new JSONObject(orderSample);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				info(orderSample);
+				target.addComponent(pnlFeedBack);
+
+				/*String responseString = Util.postToWebService(webserviceurl,
+						"order", orderSampleJson);*/
+			}
+		};
+
+		filterForm.add(uomName);
+		filterForm.add(btnSubmit);
+		add(filterForm);
+
+	}
+}

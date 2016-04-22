@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+Test set: org.kemsa.kws.TestHomePage
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.828 sec <<< FAILURE!
+testRenderMyPage(org.kemsa.kws.TestHomePage)  Time elapsed: 0.815 sec  <<< ERROR!
+org.apache.wicket.WicketRuntimeException: Can't instantiate page using constructor public org.kemsa.kws.page.HomePage(org.apache.wicket.PageParameters) and argument 
+	at org.apache.wicket.session.DefaultPageFactory.createPage(DefaultPageFactory.java:212)
+	at org.apache.wicket.session.DefaultPageFactory.newPage(DefaultPageFactory.java:65)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.newPage(BookmarkablePageRequestTarget.java:298)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.getPage(BookmarkablePageRequestTarget.java:320)
+	at org.apache.wicket.request.target.component.BookmarkablePageRequestTarget.processEvents(BookmarkablePageRequestTarget.java:234)
+	at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
+	at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
+	at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
+	at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1428)
+	at org.apache.wicket.RequestCycle.request(RequestCycle.java:594)
+	at org.apache.wicket.protocol.http.MockWebApplication.processRequestCycle(MockWebApplication.java:478)
+	at org.apache.wicket.protocol.http.MockWebApplication.processRequestCycle(MockWebApplication.java:390)
+	at org.apache.wicket.util.tester.BaseWicketTester.startPage(BaseWicketTester.java:301)
+	at org.kemsa.kws.TestHomePage.testRenderMyPage(TestHomePage.java:33)
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at org.apache.wicket.session.DefaultPageFactory.createPage(DefaultPageFactory.java:188)
+	... 41 more
+Caused by: java.lang.RuntimeException: Failed : HTTP error code: 404
+	at org.kemsa.kws.util.Util.getWebResource(Util.java:71)
+	at org.kemsa.kws.page.HomePage.<init>(HomePage.java:58)
+	... 46 more

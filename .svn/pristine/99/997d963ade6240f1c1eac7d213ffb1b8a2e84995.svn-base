@@ -1,0 +1,12 @@
+org\kemsa\kws\service\json\LMISOrderJsonRestService$1.class
+org\kemsa\kws\model\LMIS_Batch.class
+org\kemsa\kws\service\json\LMISOrderLineJsonRestService.class
+org\kemsa\kws\service\json\LMISBatchJsonRestService.class
+org\kemsa\kws\rest\RestClient$1.class
+org\kemsa\kws\service\json\LMISBatchJsonRestService$1.class
+org\kemsa\kws\service\json\LMISBatchJsonRestService$3.class
+org\kemsa\kws\model\LMIS_OrderLine.class
+org\kemsa\kws\service\json\LMISOrderJsonRestService$2.class
+org\kemsa\kws\service\json\LMISOrderJsonRestService.class
+org\kemsa\kws\service\json\LMISBatchJsonRestService$2.class
+org\kemsa\kws\model\LMIS_Order.class
